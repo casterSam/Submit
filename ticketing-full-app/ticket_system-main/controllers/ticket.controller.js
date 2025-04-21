@@ -4,6 +4,8 @@ import mongoose from "mongoose";
 
 // Create a new ticket
 export const createTicket = async (req, res) => {
+  console.log('Request body:', req.body); // Debugging
+console.log('Headers:', req.headers); // Check content-type
   try {
     const { title, description } = req.body;
     
@@ -13,6 +15,13 @@ export const createTicket = async (req, res) => {
         error: "Title and description are required" 
       });
     }
+    // Ensure proper error response
+if (!req.is('application/json')) {
+  return res.status(415).json({ 
+    success: false,
+    error: "Content-Type must be application/json" 
+  });
+}
 
     const ticket = await Ticket.create({ 
       title, 
@@ -51,17 +60,15 @@ export const getAllTickets = async (req, res) => {
 // Get ticket by ID
 export const getTicketById = async (req, res) => {
   try {
-    const { id } = req.params;
-
-    // Validate ID format
-    if (!mongoose.Types.ObjectId.isValid(id)) {
+    // More robust ID validation
+    if (!req.params.id || !mongoose.Types.ObjectId.isValid(req.params.id)) {
       return res.status(400).json({
         success: false,
         message: "Invalid ticket ID format"
       });
     }
 
-    const ticket = await Ticket.findById(id);
+    const ticket = await Ticket.findById(req.params.id);
     
     if (!ticket) {
       return res.status(404).json({
@@ -72,10 +79,10 @@ export const getTicketById = async (req, res) => {
 
     res.status(200).json(ticket);
   } catch (error) {
+    console.error("Ticket fetch error:", error);
     res.status(500).json({
       success: false,
-      message: "Failed to retrieve ticket",
-      error: error.message
+      message: "Server error while fetching ticket"
     });
   }
 };

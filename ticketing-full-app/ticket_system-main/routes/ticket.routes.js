@@ -8,10 +8,10 @@ import {
 
 const router = express.Router();
 
-// Define specific routes before general ones
-router.get("/:id", getTicketById);       // GET /api/tickets/:id
-router.patch("/:id/close", updateTicketStatus); // PATCH /api/tickets/:id/close
+// Correct order - specific routes AFTER general ones
 router.get("/", getAllTickets);          // GET /api/tickets
 router.post("/", createTicket);          // POST /api/tickets
+router.get("/:id", getTicketById);       // GET /api/tickets/:id
+router.patch("/:id/close", updateTicketStatus); // PATCH /api/tickets/:id/close
 
 export default router;

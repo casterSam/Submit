@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import TicketForm from './components/TicketForm';
 import TicketList from './components/TicketList';
 import TicketDetails from './components/TicketDetails';
+import api from './api';
+
 
 function App() {
   const [tickets, setTickets] = useState([]);
@@ -10,53 +12,32 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchTickets = async () => {
-      try {
-        const res = await fetch('http://localhost:6500/api/tickets');
-        const response = await res.json();
-        
-        if (response.success) {
-          setTickets(response.data);
-        } else {
-          console.error('Error fetching tickets:', response.error);
-        }
-      } catch (error) {
-        console.error('Network error:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
+    // Updated fetchTickets
+const fetchTickets = async () => {
+  try {
+    const { data } = await api.get('/api/tickets');
+    setTickets(data);
+  } catch (error) {
+    console.error('Fetch error:', error);
+  } finally {
+    setIsLoading(false);
+  }
+};
     fetchTickets();
   }, []);
 
-  const handleCreate = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await fetch('http://localhost:6500/api/tickets', {
-        method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify(newTicket)
-      });
-
-      if (!res.ok) {
-        const errorText = await res.text();
-        throw new Error(errorText || 'Failed to create ticket');
-      }
-
-      const response = await res.json();
-      if (response.success) {
-        setTickets(prev => [...prev, response.data]);
-        setNewTicket({ title: '', description: '' });
-      }
-    } catch (error) {
-      console.error('Error creating ticket:', error);
-    }
-  };
-
+// Updated handleCreate
+const handleCreate = async (e) => {
+  e.preventDefault();
+  try {
+    const { data } = await api.post('/api/tickets', newTicket);
+    setTickets(prev => [...prev, data]);
+    setNewTicket({ title: '', description: '' });
+  } catch (error) {
+    console.error('Error:', error.response?.data || error.message);
+    alert(error.response?.data?.error || 'Failed to create ticket');
+  }
+};
   const handleSelect = async (id) => {
     try {
       const res = await fetch(`http://localhost:6500/api/tickets/${id}`);
