@@ -1,0 +1,116 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+  body {
+    @apply bg-gray-50 text-gray-900 antialiased;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+}
+
+@layer components {
+  /* Enhanced card styles */
+  .ticket-card {
+    @apply bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden transition-all duration-200 hover:shadow-md hover:border-blue-100;
+  }
+
+  /* Status badges */
+  .status-badge {
+    @apply px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide;
+  }
+  .status-pending {
+    @apply bg-yellow-50 text-yellow-700 ring-1 ring-yellow-200;
+  }
+  .status-processing {
+    @apply bg-blue-50 text-blue-700 ring-1 ring-blue-200;
+  }
+  .status-completed {
+    @apply bg-green-50 text-green-700 ring-1 ring-green-200;
+  }
+  .status-cancelled {
+    @apply bg-red-50 text-red-700 ring-1 ring-red-200;
+  }
+
+  /* Form elements */
+  .input-field {
+    @apply w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition text-gray-700 placeholder-gray-400;
+  }
+  .textarea-field {
+    @apply input-field min-h-[120px];
+  }
+  .btn-primary {
+    @apply bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-6 rounded-lg transition-colors duration-200 shadow-sm hover:shadow-md;
+  }
+  .btn-danger {
+    @apply bg-red-600 hover:bg-red-700 text-white font-medium py-2.5 px-6 rounded-lg transition-colors duration-200 shadow-sm hover:shadow-md;
+  }
+
+  /* Layout components */
+  .page-header {
+    @apply text-3xl font-bold text-gray-800 mb-6;
+  }
+  .section-header {
+    @apply text-lg font-semibold text-gray-800 mb-4 pb-2 border-b border-gray-200;
+  }
+}
+
+@layer utilities {
+  /* Custom utilities */
+  .text-shadow {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  }
+  .animate-pulse-slow {
+    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  .ring-1 {
+    --tw-ring-opacity: 1;
+    --tw-ring-color: rgba(209, 213, 219, var(--tw-ring-opacity));
+  }
+}
+.input-field {
+    padding: 0.75rem;
+    border: 1px solid #d1d5db; /* Tailwind gray-300 */
+    border-radius: 0.5rem;
+    transition: border-color 0.2s ease-in-out;
+  }
+  
+  .input-field:focus {
+    outline: none;
+    border-color: #3b82f6; /* Tailwind blue-500 */
+  }
+  
+  .textarea-field {
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    resize: vertical;
+    transition: border-color 0.2s ease-in-out;
+  }
+  
+  .textarea-field:focus {
+    outline: none;
+    border-color: #3b82f6;
+  }
+  
+  .btn-primary {
+    background-color: #3b82f6;
+    color: white;
+    padding: 0.75rem;
+    font-weight: 600;
+    border-radius: 0.5rem;
+    border: none;
+  }
+  
+  .btn-primary:hover {
+    background-color: #2563eb;
+  }
+  
+  .btn-primary:disabled {
+    background-color: #93c5fd;
+    cursor: not-allowed;
+  }
+  
